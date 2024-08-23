@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+    // I create a style element
+    const style = document.createElement('style');
+    style.textContent = `
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('dl.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #registrationForm {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+            border: 2px solid #95caf8;
+            border-top: 6px solid #4276aa;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            width: 48%;
+        }
+
+        #registrationForm input[type="email"], 
+        #registrationForm input[type="password"],
+        #registrationForm button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #registrationForm input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #registrationForm button {
+            background-color: #4c81af;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #registrationForm button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    `;
+    // This Append the style element to the head
+    document.head.appendChild(style);
+
+    // This Create the form element
+    const form = document.createElement('form');
+    form.id = 'registrationForm';
+
+    
+    function createInputField(type, id, placeholder) {
+        const input = document.createElement('input');
+        input.type = type;
+        input.id = id;
+        input.placeholder = placeholder;
+        return input;
+    }
+
+    function createInputGroup(...inputs) {
+        const div = document.createElement('div');
+        div.className = 'input-group';
+        inputs.forEach(input => div.appendChild(input));
+        return div;
+    }
+
+    const firstName = createInputField('text', 'firstName', 'First Name');
+    const lastName = createInputField('text', 'lastName', 'Last Name');
+    const email = createInputField('email', 'email', 'Email Address');
+    const password = createInputField('password', 'password', 'Password');
+    const confirmPassword = createInputField('password', 'confirmPassword', 'Confirm Password');
+
+    const nameGroup = createInputGroup(firstName, lastName);
+    const passwordGroup = createInputGroup(password, confirmPassword);
+
+    form.appendChild(nameGroup);
+    form.appendChild(email);
+    form.appendChild(passwordGroup);
+
+    const submitButton = document.createElement('button');
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Register';
+    form.appendChild(submitButton);
+
+    document.getElementById('app').appendChild(form);
+
+    const emailError = document.createElement('div');
+    emailError.className = 'error';
+    form.insertBefore(emailError, email.nextSibling);
+
+    function validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    form.addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Clear previous error message
+        emailError.textContent = '';
+
+        // Validate email
+        if (!validateEmail(email.value)) {
+            emailError.textContent = 'Please enter a valid email address (e.g., name@domain.com)';
+            valid = false;
+        }
+
+        // Check if passwords match
+        if (password.value !== confirmPassword.value) {
+            alert('Passwords incorrect(sayop imong password)!');
+            valid = false;
+        }
+
+        // Prevent form submission if validation fails
+        if (!valid) {
+            event.preventDefault();
+        } else {
+            alert('Form submitted successfully!');
+        }
+    });
+</script>
+
+</body>
+</html>
